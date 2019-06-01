@@ -7,7 +7,8 @@ namespace shar_kurs_work.UI
 {
     public partial class MainForm : Form
     {
-        private bool Learning;
+        private bool _learning;
+
         public MainForm()
         {
             InitializeComponent();
@@ -20,9 +21,10 @@ namespace shar_kurs_work.UI
 
         private void NewGame(LevelGame levelGame)
         {
-            Learning = true;
+            _learning = true;
             translateList.Visible = false;
             translateLabel.Visible = true;
+            enterButton.Enabled = true;
 
             GameController.InitGame(levelGame);
             NextLearningWord();
@@ -38,7 +40,6 @@ namespace shar_kurs_work.UI
             }
             else
             {
-                Learning = false;
                 StartTesting();
             }
         }
@@ -46,17 +47,21 @@ namespace shar_kurs_work.UI
         private void NextTestingWord()
         {
             currentWord.Text = GameController.NextTestingWord();
+            if (currentWord.Text == "")
+            {
+                EndGame();
+            }
         }
 
         private void enterButton_Click(object sender, EventArgs e)
         {
-            if (Learning)
+            if (_learning)
             {
                 NextLearningWord();
             }
             else
             {
-                NextTestingWord();
+                CheckWordPair();
             }
         }
 
@@ -72,11 +77,36 @@ namespace shar_kurs_work.UI
 
         private void StartTesting()
         {
+            _learning = false;
+
             translateLabel.Visible = false;
             translateList.Visible = true;
 
+            translateList.DataSource = null;
             translateList.DataSource = GameController.CurrentListValue;
             NextTestingWord();
+        }
+
+        private void CheckWordPair()
+        {
+            if (!GameController.FindPair(currentWord.Text, translateList.SelectedItem.ToString()))
+            {
+                MessageBox.Show("Error. Try again");
+            }
+            else
+            {
+                NextTestingWord();
+            }
+        }
+
+        private void EndGame()
+        {
+            _learning = true;
+            translateList.Visible = false;
+            translateLabel.Visible = true;
+            enterButton.Enabled = false;
+            translateLabel.Text = "WordTranslate";
+            currentWord.Text = "Word";
         }
     }
 }

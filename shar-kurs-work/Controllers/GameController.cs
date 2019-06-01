@@ -20,6 +20,8 @@ namespace shar_kurs_work.Controllers
             Dict = GetWords(levelGame);
             _itr = Dict.GetEnumerator();
 
+            CurrentListKey.Clear();
+            CurrentListValue.Clear();
             foreach (var keyValuePair in Dict)
             {
                 CurrentListKey.Add(keyValuePair.Key);
