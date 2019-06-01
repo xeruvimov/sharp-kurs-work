@@ -33,10 +33,5 @@ namespace shar_kurs_work.Dictionary
                 MessageBox.Show("File dictionary not load!");
             }
         }
-
-        public static bool FindPair(string key, string value)
-        {
-            return Dictionary[key].Equals(value);
-        }
     }
 }
