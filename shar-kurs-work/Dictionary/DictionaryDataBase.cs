@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace shar_kurs_work.Dictionary
 {
     public static class DictionaryDataBase
     {
         private const String PathToDictionary = ".\\dictionary.txt";
-        public static Dictionary<string, string> Dictionary { get; set; }
+        public static Dictionary<string, string> Dictionary { get; private set; }
 
         static DictionaryDataBase()
         {
@@ -17,16 +18,23 @@ namespace shar_kurs_work.Dictionary
 
         private static void LoadDictionary()
         {
-            Dictionary = new Dictionary<string, string>();
-            String[] lines = File.ReadLines(PathToDictionary).ToArray();
-            foreach (var line in lines)
+            try
             {
-                String[] temp = line.Split(' ');
-                Dictionary[temp[0]] = temp[1];
+                Dictionary = new Dictionary<string, string>();
+                var lines = File.ReadLines(PathToDictionary).ToArray();
+                foreach (var line in lines)
+                {
+                    var temp = line.Split(' ');
+                    Dictionary[temp[0]] = temp[1];
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("File dictionary not load!");
             }
         }
 
-        public static bool FindPair(String key, String value)
+        public static bool FindPair(string key, string value)
         {
             return Dictionary[key].Equals(value);
         }
