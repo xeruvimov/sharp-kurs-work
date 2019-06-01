@@ -13,5 +13,11 @@ namespace shar_kurs_work.Controllers
             ErrorsNumber = 0;
             CorrectAnswersNumber = 0;
         }
+
+        public void AddStats(GameStats gameStats)
+        {
+            ErrorsNumber += gameStats.ErrorsNumber;
+            CorrectAnswersNumber += gameStats.CorrectAnswersNumber;
+        }
     }
 }

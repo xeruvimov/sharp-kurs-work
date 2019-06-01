@@ -95,12 +95,13 @@ namespace shar_kurs_work.UI
         {
             if (!GameController.FindPair(currentWord.Text, translateList.SelectedItem.ToString()))
             {
+                translateList.ClearSelected();
                 MessageBox.Show("Error. Try again");
-                _gameStats.ErrorsNumber++;
+                GameController.CurrentGameStats.ErrorsNumber++;
             }
             else
             {
-                _gameStats.CorrectAnswersNumber++;
+                GameController.CurrentGameStats.CorrectAnswersNumber++;
                 NextTestingWord();
             }
         }
@@ -114,10 +115,13 @@ namespace shar_kurs_work.UI
             translateLabel.Text = "WordTranslate";
             currentWord.Text = "Word";
             SaveStats();
+            ShowStats(GameController.CurrentGameStats);
         }
 
         private void SaveStats()
         {
+            _gameStats.AddStats(GameController.CurrentGameStats);
+
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(GameStats));
 
             using (FileStream fs = new FileStream("gamestats.xml", FileMode.OpenOrCreate))
@@ -145,8 +149,13 @@ namespace shar_kurs_work.UI
 
         private void viewResultsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Number of correct answer: " + _gameStats.CorrectAnswersNumber + "\nNumber of errors: " +
-                            _gameStats.ErrorsNumber);
+            ShowStats(_gameStats);
+        }
+
+        private static void ShowStats(GameStats gameStats)
+        {
+            MessageBox.Show("Number of correct answer: " + gameStats.CorrectAnswersNumber + "\nNumber of errors: " +
+                            gameStats.ErrorsNumber);
         }
 
         private void clearResultsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -154,6 +163,21 @@ namespace shar_kurs_work.UI
             _gameStats.ErrorsNumber = 0;
             _gameStats.CorrectAnswersNumber = 0;
             SaveStats();
+        }
+
+        private void translateList_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter && translateList.SelectedIndex != -1)
+            {
+                if (_learning)
+                {
+                    NextLearningWord();
+                }
+                else
+                {
+                    CheckWordPair();
+                }
+            }
         }
     }
 }

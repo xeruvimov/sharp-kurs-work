@@ -8,18 +8,20 @@ namespace shar_kurs_work.Controllers
     public static class GameController
     {
         private static readonly Random Rnd = new Random();
-        public static Dictionary<string, string> Dict { get; private set; }
+        private static Dictionary<string, string> Dict { get; set; }
         private static Dictionary<string, string>.Enumerator _itr;
 
         private static List<string> CurrentListKey { get; } = new List<string>();
         private static List<string>.Enumerator _wordItr;
         public static List<string> CurrentListValue { get; } = new List<string>();
+        public static GameStats CurrentGameStats { get; private set; }
 
         public static void InitGame(LevelGame levelGame)
         {
             Dict = GetWords(levelGame);
             _itr = Dict.GetEnumerator();
 
+            CurrentGameStats = new GameStats();
             CurrentListKey.Clear();
             CurrentListValue.Clear();
             foreach (var keyValuePair in Dict)
