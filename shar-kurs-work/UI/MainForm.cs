@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 using shar_kurs_work.Controllers;
 
 namespace shar_kurs_work.UI
@@ -8,9 +10,11 @@ namespace shar_kurs_work.UI
     public partial class MainForm : Form
     {
         private bool _learning;
+        private GameStats _gameStats;
 
         public MainForm()
         {
+            LoadStats();
             InitializeComponent();
         }
 
@@ -92,9 +96,11 @@ namespace shar_kurs_work.UI
             if (!GameController.FindPair(currentWord.Text, translateList.SelectedItem.ToString()))
             {
                 MessageBox.Show("Error. Try again");
+                _gameStats.ErrorsNumber++;
             }
             else
             {
+                _gameStats.CorrectAnswersNumber++;
                 NextTestingWord();
             }
         }
@@ -107,6 +113,47 @@ namespace shar_kurs_work.UI
             enterButton.Enabled = false;
             translateLabel.Text = "WordTranslate";
             currentWord.Text = "Word";
+            SaveStats();
+        }
+
+        private void SaveStats()
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(GameStats));
+
+            using (FileStream fs = new FileStream("gamestats.xml", FileMode.OpenOrCreate))
+            {
+                xmlSerializer.Serialize(fs, _gameStats);
+            }
+        }
+
+        private void LoadStats()
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(GameStats));
+
+            try
+            {
+                using (FileStream fs = new FileStream("gamestats.xml", FileMode.OpenOrCreate))
+                {
+                    _gameStats = (GameStats) xmlSerializer.Deserialize(fs);
+                }
+            }
+            catch (Exception)
+            {
+                _gameStats = new GameStats();
+            }
+        }
+
+        private void viewResultsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Number of correct answer: " + _gameStats.CorrectAnswersNumber + "\nNumber of errors: " +
+                            _gameStats.ErrorsNumber);
+        }
+
+        private void clearResultsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _gameStats.ErrorsNumber = 0;
+            _gameStats.CorrectAnswersNumber = 0;
+            SaveStats();
         }
     }
 }
