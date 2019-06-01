@@ -179,5 +179,10 @@ namespace shar_kurs_work.UI
                 }
             }
         }
+
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("This is bug. You found her");
+        }
     }
 }

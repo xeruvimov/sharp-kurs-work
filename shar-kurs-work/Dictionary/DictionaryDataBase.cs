@@ -8,7 +8,7 @@ namespace shar_kurs_work.Dictionary
 {
     public static class DictionaryDataBase
     {
-        private const String PathToDictionary = ".\\dictionary.txt";
+        private const string PathToDictionary = ".\\dictionary.txt";
         public static Dictionary<string, string> Dictionary { get; private set; }
 
         static DictionaryDataBase()
