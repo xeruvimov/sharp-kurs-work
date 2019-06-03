@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace shar_kurs_work.Dictionary
+namespace library_kurs.Dictionary
 {
     public static class DictionaryDataBase
     {

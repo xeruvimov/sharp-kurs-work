@@ -1,6 +1,6 @@
 using System;
 
-namespace shar_kurs_work.Controllers
+namespace library_kurs.Controllers
 {
     [Serializable]
     public class GameStats

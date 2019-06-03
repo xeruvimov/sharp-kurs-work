@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using library_kurs.Controllers;
 using shar_kurs_work.Controllers;
 
 namespace shar_kurs_work.UI
@@ -182,7 +183,7 @@ namespace shar_kurs_work.UI
 
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("This is bug. You found her");
+            MessageBox.Show("This is a bug. You have found it");
         }
     }
 }

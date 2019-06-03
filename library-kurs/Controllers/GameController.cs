@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using shar_kurs_work.Dictionary;
+using library_kurs.Dictionary;
+using shar_kurs_work.Controllers;
 
-namespace shar_kurs_work.Controllers
+namespace library_kurs.Controllers
 {
     public static class GameController
     {
