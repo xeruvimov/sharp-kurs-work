@@ -30,7 +30,7 @@ namespace library_kurs.Dictionary
             }
             catch (Exception e)
             {
-                MessageBox.Show("File dictionary not load!");
+                MessageBox.Show("File dictionary not load!\n" + e.Message);
             }
         }
     }
